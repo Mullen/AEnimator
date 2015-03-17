@@ -1,6 +1,6 @@
 //"use strict";
 
-function ParallaxElement(Data, $Parent){
+function AEnimatorElement(Data, $Parent){
 	this.data = Data;
 	this.loadCompleteCallback = null;
 	
@@ -33,17 +33,17 @@ function ParallaxElement(Data, $Parent){
 	
 	this.isAborted = false;
 	this.hasTriedToReload = false;
-	this.roundOpacity = false;
+	//this.roundOpacity = false;
 	
 	if(this.isImage){
 		this.image = new Image();
-		this.imagePath = Modernizr.isPhoneOrSmallTablet && !(Data.fHQ && Data.fHQ == 1) ? this.$el.data().srcsm : this.$el.data().src; //isPhoneOrSmallTablet
-		this.roundOpacity = this.imagePath.indexOf("wingFlap") != -1;
+		this.imagePath = this.$el.data().src;
+		//this.roundOpacity = this.imagePath.indexOf("wingFlap") != -1;
 	}
 };
 
 
-ParallaxElement.prototype.handleScrollPositionChange = function(UpdatedScrollPosition){
+AEnimatorElement.prototype.handleScrollPositionChange = function(UpdatedScrollPosition){
 	this.scrollPosition = UpdatedScrollPosition;
 		
 	this.isWithinVisibleRange = this.isWithinVisibleRangeOfScrollPosition();
@@ -53,7 +53,7 @@ ParallaxElement.prototype.handleScrollPositionChange = function(UpdatedScrollPos
 	}
 };
 
-ParallaxElement.prototype.handlePassiveParallaxChange = function(UpdatedParallaxMultiplier){
+AEnimatorElement.prototype.handlePassiveParallaxChange = function(UpdatedParallaxMultiplier){
 	if(this.passiveParallaxRange){
 		this.currentParallaxTranslate = {
 			x: this.passiveParallaxRange.x * UpdatedParallaxMultiplier.x,
@@ -62,7 +62,7 @@ ParallaxElement.prototype.handlePassiveParallaxChange = function(UpdatedParallax
 	}
 };
 
-ParallaxElement.prototype.updateScrollPositionStyle = function(){
+AEnimatorElement.prototype.updateScrollPositionStyle = function(){
 	var _fromKeyframe = this.getPrevKeyframeFromScrollPosition(this.scrollPosition),
 		_toKeyframe = this.getNextKeyframeFromScrollPosition(this.scrollPosition),
 		_keyframePercent = _fromKeyframe == _toKeyframe ? 1 : (this.scrollPosition - _fromKeyframe.sP) / (_toKeyframe.sP - _fromKeyframe.sP),
@@ -73,9 +73,9 @@ ParallaxElement.prototype.updateScrollPositionStyle = function(){
 		_isOpacityCalculated = true;
 		this.currentScrollPosStyles.o = this.getInterpolatedKeyframeStylePropertyValue(_fromKeyframe.s, _toKeyframe.s, _keyframePercent, "o");
 		
-		if(this.roundOpacity){
-			this.currentScrollPosStyles.o = Math.round(this.currentScrollPosStyles.o);
-		}
+		//if(this.roundOpacity){
+		//	this.currentScrollPosStyles.o = Math.round(this.currentScrollPosStyles.o);
+		//}
 		
 		if(this.currentScrollPosStyles.o == 0){
 			return;
@@ -100,7 +100,7 @@ ParallaxElement.prototype.updateScrollPositionStyle = function(){
 };
 
 //GET INTERPOLATED KEYFRAME PROPERTY VALUE
-ParallaxElement.prototype.getInterpolatedKeyframeStylePropertyValue = function(FromKeyFrameStyles, ToKeyFrameStyles, KeyFramePercent, StyleProperty){
+AEnimatorElement.prototype.getInterpolatedKeyframeStylePropertyValue = function(FromKeyFrameStyles, ToKeyFrameStyles, KeyFramePercent, StyleProperty){
 	if(FromKeyFrameStyles[StyleProperty].x != null || FromKeyFrameStyles[StyleProperty].y != null){
 		return {
 			x: (FromKeyFrameStyles[StyleProperty].x + ((ToKeyFrameStyles[StyleProperty].x - FromKeyFrameStyles[StyleProperty].x) * KeyFramePercent)),
@@ -112,7 +112,7 @@ ParallaxElement.prototype.getInterpolatedKeyframeStylePropertyValue = function(F
 	}
 };
 
-ParallaxElement.prototype.updateCSS = function(){
+AEnimatorElement.prototype.updateCSS = function(){
 	var _css = {};
 	
 	if(this.isWithinVisibleRange){
@@ -140,12 +140,12 @@ ParallaxElement.prototype.updateCSS = function(){
 	}
 };
 
-ParallaxElement.prototype.isWithinVisibleRangeOfScrollPosition = function(){
+AEnimatorElement.prototype.isWithinVisibleRangeOfScrollPosition = function(){
 	return this.inPointScrollPos <= this.scrollPosition && this.scrollPosition <= this.outPointScrollPos;
 };
 
 //GETS PREV KEYFRAME
-ParallaxElement.prototype.getPrevKeyframeFromScrollPosition = function(ScrollPosition){
+AEnimatorElement.prototype.getPrevKeyframeFromScrollPosition = function(ScrollPosition){
 	for(var i = this.keyframesLength-1; 0 <= i; i--){
 		if(this.keyframes[i].sP <= ScrollPosition || i == 0){
 			return this.keyframes[i];
@@ -154,7 +154,7 @@ ParallaxElement.prototype.getPrevKeyframeFromScrollPosition = function(ScrollPos
 };
 
 //GETS NEXT KEYFRAME
-ParallaxElement.prototype.getNextKeyframeFromScrollPosition = function(ScrollPosition){
+AEnimatorElement.prototype.getNextKeyframeFromScrollPosition = function(ScrollPosition){
 	for(var i = 0; i < this.keyframesLength; i++){
 		if(this.keyframes[i].sP >= ScrollPosition || i == this.keyframesLength-1){
 			return this.keyframes[i];
@@ -162,7 +162,7 @@ ParallaxElement.prototype.getNextKeyframeFromScrollPosition = function(ScrollPos
 	}
 };
 
-ParallaxElement.prototype.addTransformCSS3D = function(CSS){
+AEnimatorElement.prototype.addTransformCSS3D = function(CSS){
 	var _transformString = "translate3d(" + (this.currentScrollPosStyles.t.x + this.currentParallaxTranslate.x).toFixed(5) + "px, " + (this.currentScrollPosStyles.t.y + this.currentParallaxTranslate.y).toFixed(5) + "px, 0px) ";					
 	_transformString += "scale(" + this.currentScrollPosStyles.s.x.toFixed(5) + ", " + this.currentScrollPosStyles.s.y.toFixed(5) + ") ";
 	_transformString += "rotate(" + this.currentScrollPosStyles.r.toFixed(5) + "deg) ";
@@ -176,7 +176,7 @@ ParallaxElement.prototype.addTransformCSS3D = function(CSS){
 	return CSS;
 };
 
-ParallaxElement.prototype.addTransformCSSNo3D = function(CSS){
+AEnimatorElement.prototype.addTransformCSSNo3D = function(CSS){
 	var _transformString = "translate(" + (this.currentScrollPosStyles.t.x + this.currentParallaxTranslate.x).toFixed(5) + "px, " + (this.currentScrollPosStyles.t.y + this.currentParallaxTranslate.y).toFixed(5) + "px) ";					
 		_transformString += "scale(" + this.currentScrollPosStyles.s.x.toFixed(5) + ", " + this.currentScrollPosStyles.s.y.toFixed(5) + ") ";
 		_transformString += "rotate(" + this.currentScrollPosStyles.r.toFixed(5) + "deg) ";
@@ -190,7 +190,7 @@ ParallaxElement.prototype.addTransformCSSNo3D = function(CSS){
 	return CSS;
 };
 
-ParallaxElement.prototype.show = function(){
+AEnimatorElement.prototype.show = function(){
 	if(!this.isVisible){
 		this.isVisible = true;
 		this.$el.addClass("visible");
@@ -198,7 +198,7 @@ ParallaxElement.prototype.show = function(){
 	}
 };
 
-ParallaxElement.prototype.hide = function(){
+AEnimatorElement.prototype.hide = function(){
 	if(this.isVisible){
 		this.isVisible = false;
 		this.$el.addClass("hidden");
@@ -206,7 +206,7 @@ ParallaxElement.prototype.hide = function(){
 	}
 };
 
-ParallaxElement.prototype.load = function(LoadCompleteCallback){
+AEnimatorElement.prototype.load = function(LoadCompleteCallback){
 	var _this = this;
 	
 	this.loadCompleteCallback = LoadCompleteCallback;
@@ -214,7 +214,7 @@ ParallaxElement.prototype.load = function(LoadCompleteCallback){
 	this.tryLoad();
 };
 
-ParallaxElement.prototype.tryLoad = function(){
+AEnimatorElement.prototype.tryLoad = function(){
 	var _this = this;
 	
 	this.image.onload = null;
@@ -238,11 +238,7 @@ ParallaxElement.prototype.tryLoad = function(){
 				_this.hasTriedToReload = true;
 				_this.tryLoad();
 			} else {
-				if(Modernizr.isEnvironmentProduction){
-					console.log("!!! IMAGE ERROR SECOND TIME: " + _this.image.src);	
-				} else {
-					alert("!!! IMAGE ERROR SECOND TIME: " + _this.image.src);
-				}
+				console.log("!!! IMAGE ERROR SECOND TIME: " + _this.image.src);	
 			}
 		}
 	};
@@ -250,7 +246,7 @@ ParallaxElement.prototype.tryLoad = function(){
 	this.image.src = this.imagePath;
 };
 
-ParallaxElement.prototype.unload = function(){
+AEnimatorElement.prototype.unload = function(){
 	this.loadCompleteCallback = null;
 	this.isAborted = true;
 	if(this.isImage){

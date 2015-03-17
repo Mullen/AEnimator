@@ -1,4 +1,4 @@
-function AJAXDataLoader(DataPath, CallbackFN){
+function AJAXJSONLoader(DataPath, CallbackFN){
 	this.dataPath = DataPath;
 	this.callbackFN = CallbackFN;
 	
@@ -10,7 +10,7 @@ function AJAXDataLoader(DataPath, CallbackFN){
 };
 
 
-AJAXDataLoader.prototype.load = function(){
+AJAXJSONLoader.prototype.load = function(){
 	var _this = this;
 	
 	this.loader = $.getJSON( this.dataPath, function(Data) {
@@ -18,15 +18,13 @@ AJAXDataLoader.prototype.load = function(){
 	}).error( function() { _this.onLoadError(); });
 };
 
-AJAXDataLoader.prototype.onLoadComplete = function(Data){
-	//console.log("JSON LOADED: " + this.dataPath);
-	
+AJAXJSONLoader.prototype.onLoadComplete = function(Data){	
 	if(this.callbackFN){
 		this.callbackFN(Data);	
 	}
 };
 
-AJAXDataLoader.prototype.onLoadError = function(){
+AJAXJSONLoader.prototype.onLoadError = function(){
 	if(this.isAborted){
 		console.log("!!! JSON ABORT: " + this.dataPath);
 	} else {
@@ -35,16 +33,12 @@ AJAXDataLoader.prototype.onLoadError = function(){
 			this.hasTriedToReload = true;
 			this.load();
 		} else {
-			if(Modernizr.isEnvironmentProduction){
-				console.log("!!! JSON ERROR SECOND TIME: " + this.dataPath);
-			} else {
-				alert("!!! JSON ERROR SECOND TIME: " + this.dataPath);
-			}
+			console.log("!!! JSON ERROR SECOND TIME: " + this.dataPath);
 		}
 	}	
 };
 
-AJAXDataLoader.prototype.kill = function(){
+AJAXJSONLoader.prototype.kill = function(){
 	this.isAborted = true;
 	this.callbackFN = null
 	if(this.loader){

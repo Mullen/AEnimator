@@ -13,7 +13,7 @@
 
   <body>
 	  
-	  <div id="animation">
+	  <div id="animation" style="width: 800px; height:480px">
 		  
 		  <!-- Start AEnimator Generated Markup -->
 			<div id="animation-01-testComposition1" class="animation-01-testComposition1 aenimatorContainer">
@@ -24,13 +24,26 @@
 			
 	  </div>
 	  
+	  <script src="assets/javascripts/AEnimator.js"></script>
+	  
 	  <!-- Include JQuery, this is a dependency -->
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   	
   	<script>
 	  	$(function() {
 		  	var _aenimator = new AEnimator({
-			  	
+			  	jsonPath: "assets/json/animation-01-testComposition1.json",
+			  	autoLoad: true,
+			  	autoPlay: true,
+			  	onUnsupported: function(){
+				  	
+			  	},
+			  	onLoadComplete: function(){
+				  	console.log("LOADED");
+			  	},
+			  	onLoadProgress: function(PercentLoaded){
+				  	
+			  	}
 		  	});
 		  });
   	</script>
