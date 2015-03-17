@@ -1,4 +1,30 @@
-.animation-01-testComposition1 > .tree-157371_1280.png_2{
+.aenimatorContainer{
+	position: absolute;
+	display: none;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-ms-backface-visibility: hidden;
+	-o-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+.aenimatorContainer > .aenimatorElement{
+	position: absolute;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-ms-backface-visibility: hidden;
+	-o-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+.aenimatorContainer > .aenimatorElement.hidden{
+	display: none;
+}
+.aenimatorContainer > .aenimatorElement.visible{
+	display: block;
+}
+.animation-01-testComposition1 > .tree-157371_1280-png_2{
 	width: 1280px;
 	height: 1204px;
 	opacity: 1;
@@ -21,7 +47,7 @@
 	-o-transform: translate3d(280px, -220px, 0px)scale(0.1794, 0.1794)rotate(0deg);
 	-ms-transform: translate3d(280px, -220px, 0px)scale(0.1794, 0.1794)rotate(0deg);
 }
-.animation-01-testComposition1 > .beachball-311978_1280.png_1{
+.animation-01-testComposition1 > .beachball-311978_1280-png_1{
 	width: 1280px;
 	height: 1278px;
 	opacity: 1;
